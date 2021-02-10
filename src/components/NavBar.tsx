@@ -1,11 +1,15 @@
-import classNames from 'classnames'
 import { useState } from 'react'
 import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/client'
+
+import WalletMenu from '../popups/WalletMenu'
 
 export default function NavBar() {
-  const [isNavBarOpen, setIsNavBarOpen] = useState(false)
-  const [session, loading] = useSession()
+  const [showModal, setShowModal] = useState(false)
+  const openWalletMenu = (mode) => {
+    setShowModal(mode)
+    if (mode) document.body.classList.add('modal-open')
+    else document.body.classList.remove('modal-open')
+  }
   return (
     <div className="fixed w-full top-0">
       <nav className="bg-white border-b border-lightgray-500 ">
@@ -37,21 +41,24 @@ export default function NavBar() {
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <a
-                onClick={() => signIn()}
                 className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                onClick={() => openWalletMenu(true)}
               >
                 Connect wallet
               </a>
-              <a
-                onClick={() => signIn()}
-                className="inline-flex items-center justify-center px-4 py-2 ml-2 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
-              >
+              <a className="inline-flex items-center justify-center px-4 py-2 ml-2 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
                 ?
               </a>
             </div>
           </div>
         </div>
       </nav>
+      <div>
+        <WalletMenu
+          showModal={showModal}
+          setShowModal={() => openWalletMenu(false)}
+        />
+      </div>
     </div>
   )
 }
