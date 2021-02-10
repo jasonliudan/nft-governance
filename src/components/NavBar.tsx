@@ -7,8 +7,8 @@ export default function NavBar() {
   const [isNavBarOpen, setIsNavBarOpen] = useState(false)
   const [session, loading] = useSession()
   return (
-    <>
-      <nav className="bg-white border-b border-lightgray-500">
+    <div className="fixed w-full top-0">
+      <nav className="bg-white border-b border-lightgray-500 ">
         <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20">
             <div className="flex items-center justify-start flex-1 ml-12 sm:items-stretch">
@@ -52,6 +52,6 @@ export default function NavBar() {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   )
 }
