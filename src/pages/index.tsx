@@ -1,5 +1,6 @@
 import { NavBar } from '@/components'
 import { ReactNode, useState } from 'react'
+import Link from 'next/link'
 
 import SpaceCard from '../components/SpaceCard'
 import { spaces } from '../data/data'
@@ -28,9 +29,11 @@ export default function Home() {
                 />
               )}
             </div>
-            <a className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
-              Create space
-            </a>
+            <Link href="/setup" passHref={true}>
+              <a className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                Create space
+              </a>
+            </Link>
           </div>
           <div className="grid grid-cols-4 gap-6">
             {spaces.map((space, index) => (
