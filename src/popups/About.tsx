@@ -52,7 +52,7 @@ export default function About({ showModal, setShowModal }) {
                   ></i>
                 </div>
                 <div className="border rounded-md m-5 flex justify-between p-5">
-                  <div>
+                  <div className="text-gray-600">
                     <p>Version</p>
                     <p>License</p>
                     <p>Network</p>
