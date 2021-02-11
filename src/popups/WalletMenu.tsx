@@ -1,6 +1,15 @@
 import React from 'react'
+import { isMetamaskConnected, getMetamaskAccount } from '../api/web3api'
 
 export default function WalletMenu({ showModal, setShowModal }) {
+  const connectMetamask = async () => {
+    let address = await isMetamaskConnected()
+    if (address) console.log(address)
+    else {
+      address = await getMetamaskAccount()
+      console.log(address)
+    }
+  }
   return (
     <>
       {showModal ? (
@@ -9,7 +18,10 @@ export default function WalletMenu({ showModal, setShowModal }) {
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             onClick={() => setShowModal(false)}
           >
-            <div className="relative w-96 my-6 mx-auto max-w-3xl">
+            <div
+              className="relative w-96 my-6 mx-auto max-w-3xl"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -26,7 +38,10 @@ export default function WalletMenu({ showModal, setShowModal }) {
                 </div>
                 {/*body*/}
                 <div className="relative my-4 mx-8 flex-auto">
-                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                  <a
+                    className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                    onClick={() => connectMetamask()}
+                  >
                     <img
                       src="/icons/metamask.png"
                       alt="metamask"

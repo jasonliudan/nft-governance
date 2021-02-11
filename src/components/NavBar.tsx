@@ -2,13 +2,21 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import WalletMenu from '../popups/WalletMenu'
+import About from '../popups/About'
+
+import { handleBodyScroll } from '../utils'
 
 export default function NavBar() {
-  const [showModal, setShowModal] = useState(false)
+  const [showWalletModal, setShowWalletModal] = useState(false)
+  const [showAboutModal, setShowAboutModal] = useState(false)
+
   const openWalletMenu = (mode) => {
-    setShowModal(mode)
-    if (mode) document.body.classList.add('modal-open')
-    else document.body.classList.remove('modal-open')
+    setShowWalletModal(mode)
+    handleBodyScroll(mode)
+  }
+  const openAbout = (mode) => {
+    setShowAboutModal(mode)
+    handleBodyScroll(mode)
   }
   return (
     <div className="fixed w-full top-0">
@@ -46,7 +54,10 @@ export default function NavBar() {
               >
                 Connect wallet
               </a>
-              <a className="inline-flex items-center justify-center px-4 py-2 ml-2 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+              <a
+                className="inline-flex items-center justify-center px-4 py-2 ml-2 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                onClick={() => openAbout(true)}
+              >
                 ?
               </a>
             </div>
@@ -55,8 +66,12 @@ export default function NavBar() {
       </nav>
       <div>
         <WalletMenu
-          showModal={showModal}
+          showModal={showWalletModal}
           setShowModal={() => openWalletMenu(false)}
+        />
+        <About
+          showModal={showAboutModal}
+          setShowModal={() => openAbout(false)}
         />
       </div>
     </div>

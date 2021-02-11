@@ -3,7 +3,6 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Provider } from 'next-auth/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import { Title, Description, Meta } from '@/components'
 import React from 'react'
 import ProgressBar from '@badrap/bar-of-progress'
@@ -52,7 +51,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Layout {...layoutProps}>
           <Component {...pageProps} />
         </Layout>
-        <ReactQueryDevtools initialIsOpen={false} />
       </Provider>
     </QueryClientProvider>
   )
