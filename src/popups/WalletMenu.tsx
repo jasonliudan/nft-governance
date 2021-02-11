@@ -1,15 +1,19 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { isMetamaskConnected, getMetamaskAccount } from '../api/web3api'
+import { setEthAddress } from '../store/actions'
 
-export default function WalletMenu({ showModal, setShowModal }) {
+function WalletMenu({ showModal, setShowModal, ethAddress, setEthAddress }) {
   const connectMetamask = async () => {
     let address = await isMetamaskConnected()
-    if (address) console.log(address)
+    if (address) setEthAddress(address)
     else {
       address = await getMetamaskAccount()
       console.log(address)
     }
   }
+  console.log(ethAddress)
   return (
     <>
       {showModal ? (
@@ -91,3 +95,16 @@ export default function WalletMenu({ showModal, setShowModal }) {
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  ethAddress: state.connectionReducer.ethAddress,
+})
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      setEthAddress: (ethAddress) => setEthAddress(ethAddress),
+    },
+    dispatch
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletMenu)

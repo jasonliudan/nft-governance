@@ -1,12 +1,14 @@
 import 'tailwindcss/tailwind.css'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Provider } from 'next-auth/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import withRedux from 'next-redux-wrapper'
+import withReduxSaga from 'next-redux-saga'
 import { Title, Description, Meta } from '@/components'
 import React from 'react'
 import ProgressBar from '@badrap/bar-of-progress'
 import { Router } from 'next/router'
+import createStore from '../store'
 
 const progress = new ProgressBar({
   size: 2,
@@ -44,16 +46,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider session={pageProps.session}>
-        <Title suffix="NFT Governance">{meta.metaTitle || meta.title}</Title>
-        <Description>{description}</Description>
-        <Meta />
-        <Layout {...layoutProps}>
-          <Component {...pageProps} />
-        </Layout>
-      </Provider>
+      <Title suffix="NFT Governance">{meta.metaTitle || meta.title}</Title>
+      <Description>{description}</Description>
+      <Meta />
+      <Layout {...layoutProps}>
+        <Component {...pageProps} />
+      </Layout>
     </QueryClientProvider>
   )
 }
 
-export default MyApp
+export default withRedux(createStore)(withReduxSaga(MyApp))

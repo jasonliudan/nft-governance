@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { connect } from 'react-redux'
 
 import WalletMenu from '../popups/WalletMenu'
 import About from '../popups/About'
 
 import { handleBodyScroll } from '../utils'
 
-export default function NavBar() {
+function NavBar({ ethAddress }) {
   const [showWalletModal, setShowWalletModal] = useState(false)
   const [showAboutModal, setShowAboutModal] = useState(false)
 
@@ -48,14 +49,14 @@ export default function NavBar() {
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <a
-                className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+              <div
+                className="w-40 overflow-hidden overflow-ellipsis text-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
                 onClick={() => openWalletMenu(true)}
               >
-                Connect wallet
-              </a>
+                {!ethAddress ? 'Connect wallet' : ethAddress}
+              </div>
               <a
-                className="inline-flex items-center justify-center px-4 py-2 ml-2 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                className="items-center justify-center px-4 py-2 ml-2 text-base overflow-ellipsis text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
                 onClick={() => openAbout(true)}
               >
                 ?
@@ -77,3 +78,9 @@ export default function NavBar() {
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  ethAddress: state.connectionReducer.ethAddress,
+})
+
+export default connect(mapStateToProps, null)(NavBar)
