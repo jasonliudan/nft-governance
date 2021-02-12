@@ -4,7 +4,7 @@ export default function NavBar({ space }) {
       <div className="p-6">
         <div
           className="d-inline-block v-align-middle line-height-0 m-auto relative"
-          style={{ width: 'fit-content', zIndex: '-1' }}
+          style={{ width: 'fit-content', zIndex: -1 }}
         >
           <img
             src={space.logo}

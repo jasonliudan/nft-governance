@@ -28,6 +28,10 @@ export default function CreateSpace() {
                 />
                 <i className="fa fa-info" style={{ lineHeight: '25px' }} />
               </div>
+              <div className="w-full px-4 py-2 bg-gray-300 flex font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                <span className="w-full text-center">Next</span>
+                <i className="fa fa-info" style={{ lineHeight: '25px' }} />
+              </div>
             </div>
           </div>
         </div>
