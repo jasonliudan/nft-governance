@@ -7,3 +7,8 @@ export const setEthAddress = (ethAddress) => {
     ethAddress,
   }
 }
+export const unsetEthAddress = () => {
+  return {
+    type: ActionTypes.UNSET_ETH_ADDRESS,
+  }
+}

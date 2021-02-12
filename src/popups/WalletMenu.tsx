@@ -4,16 +4,17 @@ import { connect } from 'react-redux'
 import { isMetamaskConnected, getMetamaskAccount } from '../api/web3api'
 import { setEthAddress } from '../store/actions'
 
-function WalletMenu({ showModal, setShowModal, ethAddress, setEthAddress }) {
+function WalletMenu({ showModal, setShowModal, setEthAddress }) {
   const connectMetamask = async () => {
     let address = await isMetamaskConnected()
     if (address) setEthAddress(address)
-    else {
-      address = await getMetamaskAccount()
-      console.log(address)
-    }
+    else address = await getMetamaskAccount()
+
+    setEthAddress(address)
+    localStorage.setItem('address', address)
+    setShowModal(false)
   }
-  console.log(ethAddress)
+
   return (
     <>
       {showModal ? (

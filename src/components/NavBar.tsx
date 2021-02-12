@@ -1,18 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import WalletMenu from '../popups/WalletMenu'
+import AccountInfo from '../popups/Account'
 import About from '../popups/About'
+
+import { setEthAddress } from '../store/actions'
 
 import { handleBodyScroll } from '../utils'
 
-function NavBar({ ethAddress }) {
+function NavBar({ ethAddress, setEthAddress }) {
   const [showWalletModal, setShowWalletModal] = useState(false)
+  const [showAccountModal, setShowAccountModal] = useState(false)
   const [showAboutModal, setShowAboutModal] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.address) setEthAddress(localStorage.address)
+  }, [])
 
   const openWalletMenu = (mode) => {
     setShowWalletModal(mode)
+    handleBodyScroll(mode)
+  }
+  const openAccountInfo = (mode) => {
+    setShowAccountModal(mode)
     handleBodyScroll(mode)
   }
   const openAbout = (mode) => {
@@ -51,7 +64,11 @@ function NavBar({ ethAddress }) {
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div
                 className="w-40 overflow-hidden overflow-ellipsis text-center px-4 py-2 ml-8 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
-                onClick={() => openWalletMenu(true)}
+                onClick={
+                  !ethAddress
+                    ? () => openWalletMenu(true)
+                    : () => openAccountInfo(true)
+                }
               >
                 {!ethAddress ? 'Connect wallet' : ethAddress}
               </div>
@@ -70,6 +87,10 @@ function NavBar({ ethAddress }) {
           showModal={showWalletModal}
           setShowModal={() => openWalletMenu(false)}
         />
+        <AccountInfo
+          showModal={showAccountModal}
+          setShowModal={() => openAccountInfo(false)}
+        />
         <About
           showModal={showAboutModal}
           setShowModal={() => openAbout(false)}
@@ -82,5 +103,12 @@ function NavBar({ ethAddress }) {
 const mapStateToProps = (state) => ({
   ethAddress: state.connectionReducer.ethAddress,
 })
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      setEthAddress: (ethAddress) => setEthAddress(ethAddress),
+    },
+    dispatch
+  )
 
-export default connect(mapStateToProps, null)(NavBar)
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

@@ -11,6 +11,11 @@ export default function setBrowserInfo(state = initialState, action) {
         ...state,
         ethAddress: action.ethAddress,
       }
+    case ActionTypes.UNSET_ETH_ADDRESS:
+      return {
+        ...state,
+        ethAddress: null,
+      }
     default:
       return state
   }
