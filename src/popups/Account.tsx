@@ -56,7 +56,7 @@ function Account({
                 {/*body*/}
                 <div className="relative my-4 mx-8 flex-auto">
                   <div
-                    className="w-full overflow-hidden overflow-ellipsis text-center px-4 py-2 my-1 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                    className="w-full overflow-hidden overflow-ellipsis text-center px-4 py-2 my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
                     onClick={() => connectMetamask()}
                   >
                     {ethAddress}
