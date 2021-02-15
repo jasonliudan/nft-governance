@@ -9,7 +9,7 @@ export default function CreateSpace() {
       <main>
         <div className="px-20 py-5">
           <Link href="/" passHref={true}>
-            <div className="text-gray-500 cursor-pointer">
+            <div className="text-gray-500 cursor-pointer hover:text-black">
               <i className="fa fa-arrow-left"></i>&nbsp;&nbsp;
               <span>Home</span>
             </div>
