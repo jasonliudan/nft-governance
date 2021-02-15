@@ -4,10 +4,30 @@ import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
 import 'font-awesome/css/font-awesome.min.css'
 
+import SelectDate from '../../popups/SelectDate'
+
+import { handleBodyScroll } from '../../utils'
+
 export default function CreateProposal() {
   const [question, setQuestion] = useState('')
   const [content, setContent] = useState('')
   const [choices, setChoices] = useState(['', ''])
+  const [startDateTime, setStartDateTime] = useState(null)
+  const [endDateTime, setEndDateTime] = useState(null)
+  const [blockNumber, setBlockNumber] = useState('')
+
+  //Popup Status
+  const [showStartCalendarModal, setShowStartCalendarModal] = useState(false)
+  const [showEndCalendarModal, setEndStartCalendarModal] = useState(false)
+
+  const openStartCalendarModal = (mode) => {
+    setShowStartCalendarModal(mode)
+    handleBodyScroll(mode)
+  }
+  const openEndCalendarModal = (mode) => {
+    setEndStartCalendarModal(mode)
+    handleBodyScroll(mode)
+  }
 
   const router = useRouter()
   const params = router.query.params
@@ -76,7 +96,7 @@ export default function CreateProposal() {
                     ))}
                     <div className="mx-8 mt-4">
                       <button
-                        className="inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                        className="inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium text-black border border-lightgray-500 outline-none rounded-full cursor-pointer whitespace-nowrap hover:border-black"
                         onClick={() =>
                           setChoices([...choices.slice(0, choices.length), ''])
                         }
@@ -96,15 +116,28 @@ export default function CreateProposal() {
                 </div>
                 {/*body*/}
                 <div className="relative my-4 mx-8 flex-auto">
-                  <div className="w-full overflow-hidden overflow-ellipsis text-center px-4 py-2 my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
-                    Select start date
+                  <div
+                    className="w-full overflow-hidden overflow-ellipsis text-center px-4 py-2 my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                    onClick={() => openStartCalendarModal(true)}
+                  >
+                    {startDateTime
+                      ? startDateTime.format('LLL')
+                      : 'Select start date'}
                   </div>
-                  <div className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
-                    Select end date
+                  <div
+                    className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                    onClick={() => openEndCalendarModal(true)}
+                  >
+                    {endDateTime
+                      ? endDateTime.format('LLL')
+                      : 'Select start date'}
                   </div>
-                  <div className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
-                    11861652
-                  </div>
+                  <input
+                    className="text-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full outline-none"
+                    placeholder="Snapshot block number"
+                    value={blockNumber}
+                    onChange={(e) => setBlockNumber(e.target.value)}
+                  />
                   <div
                     className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
                     style={{ color: '#ff3856' }}
@@ -117,6 +150,19 @@ export default function CreateProposal() {
           </div>
         </div>
       </main>
+      {/* PopUps */}
+      <div>
+        <SelectDate
+          showModal={showStartCalendarModal}
+          setShowModal={() => openStartCalendarModal(false)}
+          setDateTime={(datetime) => setStartDateTime(datetime)}
+        />
+        <SelectDate
+          showModal={showEndCalendarModal}
+          setShowModal={() => openEndCalendarModal(false)}
+          setDateTime={(datetime) => setEndDateTime(datetime)}
+        />
+      </div>
     </div>
   )
 }
