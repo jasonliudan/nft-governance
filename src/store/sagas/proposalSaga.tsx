@@ -6,12 +6,19 @@ import * as ActionTypes from '../constants'
 import { getProposals, createProposal } from '../../api'
 import { setProposals } from '../actions'
 
+import { decodeHash } from '../../utils'
+
 const call: any = Effects.call
 
 function* workerGetProposals() {
   try {
     const proposals = yield call(getProposals)
-    yield put(setProposals(proposals))
+    const decodedProposals = []
+    for (let i = 0; i < proposals.length; i++) {
+      const decodedProposal = yield call(decodeHash, proposals[i].hash)
+      decodedProposals.push(decodedProposal)
+    }
+    yield put(setProposals(decodedProposals))
   } catch (error) {
     console.error()
   }

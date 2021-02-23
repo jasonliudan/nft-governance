@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { handleMetamaskSignMessage, getMetamaskAccount } from './web3api'
 
-const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001")
+const ipfs = require("nano-ipfs-store").at(process.env.IPFS_SERVER_URL)
 
 export const getProposals = async () => {
   const data = await axios

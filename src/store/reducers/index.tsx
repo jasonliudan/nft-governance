@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import connectionReducer from './connectionReducer'
+import proposalReducer from './proposalReducer'
 
 export default combineReducers({
-  connectionReducer,
+  proposalReducer,
 })
