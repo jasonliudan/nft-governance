@@ -4,7 +4,7 @@ const initialState = {
   proposals: [],
 }
 
-export default function setBrowserInfo(state = initialState, action) {
+export default function proposalReducer(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.SET_PROPOSALS:
       return {
