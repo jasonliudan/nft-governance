@@ -1,14 +1,17 @@
 import { NavBar } from '@/components'
 import { ReactNode, useState } from 'react'
 import Link from 'next/link'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import 'font-awesome/css/font-awesome.min.css'
-
 import SelectDate from '../../popups/SelectDate'
-
 import { handleBodyScroll } from '../../utils'
 
-export default function CreateProposal() {
+import { createProposal } from '../../store/actions'
+
+function CreateProposal({ createProposal }) {
   const [question, setQuestion] = useState('')
   const [content, setContent] = useState('')
   const [choices, setChoices] = useState(['', ''])
@@ -34,6 +37,34 @@ export default function CreateProposal() {
 
   const id = params[0]
 
+  const isPublishAvailable = () => {
+    const areChoicesFilled =
+      choices.length > 1 && choices.filter((x) => x.length === 0).length === 0
+    if (
+      question &&
+      content &&
+      startDateTime &&
+      endDateTime &&
+      blockNumber &&
+      areChoicesFilled
+    )
+      return true
+    return false
+  }
+
+  const publish = () => {
+    const form = {
+      name: question,
+      body: content,
+      start: startDateTime,
+      end: endDateTime,
+      snapshot: blockNumber,
+      choices
+    }
+    createProposal(form)
+  }
+
+  const readyToPublish = isPublishAvailable()
   return (
     <div className="divide-y divide-gray-100">
       <main>
@@ -69,7 +100,7 @@ export default function CreateProposal() {
                   {/*body*/}
                   <div className="p-4">
                     {choices.map((choice, key) => (
-                      <div className="relative my-2 mx-8 flex-auto">
+                      <div className="relative my-2 mx-8 flex-auto" key={key}>
                         <div className="inline-flex justify-center w-full m-5 px-4 py-2 outline-none text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black sm:m-0">
                           <span>{key + 1}</span>
                           <input
@@ -139,8 +170,13 @@ export default function CreateProposal() {
                     onChange={(e) => setBlockNumber(e.target.value)}
                   />
                   <div
-                    className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
-                    style={{ color: '#ff3856' }}
+                    className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium border border-gray-400 rounded-full ${readyToPublish ? 'cursor-pointer' : 'cursor-not-allowed'
+                      } whitespace-nowrap hover:border-black`}
+                    style={{
+                      color: '#ff3856',
+                      borderColor: readyToPublish ? '#5984ff' : 'lightgray',
+                    }}
+                    onClick={() => publish()}
                   >
                     Publish
                   </div>
@@ -184,3 +220,14 @@ CreateProposal.layoutProps = {
   },
   Layout: CreateProposalLayout,
 }
+
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      createProposal: (proposal) => createProposal(proposal),
+    },
+    dispatch
+  )
+
+export default connect(null, mapDispatchToProps)(CreateProposal)

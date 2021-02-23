@@ -26,3 +26,16 @@ export async function isMetamaskConnected() {
 export async function getWeb3() {
   return web3
 }
+
+export async function handleMetamaskSignMessage(address, message) {
+  try {
+    const signature = await web3.eth.personal.sign(
+      message,
+      address,
+      ""
+    );
+    return signature;
+  } catch (err) {
+    throw new Error("You need to sign the message to be able to log in.");
+  }
+}

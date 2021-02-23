@@ -15,7 +15,6 @@ export default function SelectDate({ showModal, setShowModal, setDateTime }) {
     onTimeChange(null)
   }, [showModal])
 
-  console.log(date, time)
   return (
     <>
       {showModal ? (
@@ -47,15 +46,15 @@ export default function SelectDate({ showModal, setShowModal, setDateTime }) {
                   {step === 0 ? (
                     <Calendar onChange={onDateChange} value={date} />
                   ) : (
-                    <input
-                      type="time"
-                      step="1"
-                      value={time}
-                      className="form-control"
-                      placeholder="Time"
-                      onChange={(ev) => onTimeChange(ev.target.value)}
-                    />
-                  )}
+                      <input
+                        type="time"
+                        step="1"
+                        value={time ? time : ''}
+                        className="form-control"
+                        placeholder="Time"
+                        onChange={(ev) => onTimeChange(ev.target.value)}
+                      />
+                    )}
                 </div>
                 {/*Footer*/}
                 <div className="flex px-8 pb-4">
@@ -69,9 +68,8 @@ export default function SelectDate({ showModal, setShowModal, setDateTime }) {
                   </div>
                   {step === 0 ? (
                     <div
-                      className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-white border rounded-full ${
-                        date ? 'cursor-pointer' : 'cursor-not-allowed'
-                      }`}
+                      className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-white border rounded-full ${date ? 'cursor-pointer' : 'cursor-not-allowed'
+                        }`}
                       style={{
                         backgroundColor: date ? '#5984ff' : 'lightgray',
                         borderColor: date ? '#5984ff' : 'lightgray',
@@ -83,30 +81,29 @@ export default function SelectDate({ showModal, setShowModal, setDateTime }) {
                       Next
                     </div>
                   ) : (
-                    <div
-                      className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-white border rounded-full ${
-                        time ? 'cursor-pointer' : 'cursor-not-allowed'
-                      }`}
-                      style={{
-                        backgroundColor: time ? '#5984ff' : 'lightgray',
-                        borderColor: time ? '#5984ff' : 'lightgray',
-                      }}
-                      onClick={() => {
-                        if (time) {
-                          const datetime = moment(date)
-                          const timedivision = time.split(':')
-                          datetime.set({
-                            hour: timedivision[0],
-                            minute: timedivision[1],
-                          })
-                          setDateTime(datetime)
-                          setShowModal(false)
-                        }
-                      }}
-                    >
-                      Select
-                    </div>
-                  )}
+                      <div
+                        className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-white border rounded-full ${time ? 'cursor-pointer' : 'cursor-not-allowed'
+                          }`}
+                        style={{
+                          backgroundColor: time ? '#5984ff' : 'lightgray',
+                          borderColor: time ? '#5984ff' : 'lightgray',
+                        }}
+                        onClick={() => {
+                          if (time) {
+                            const datetime = moment(date)
+                            const timedivision = time.split(':')
+                            datetime.set({
+                              hour: timedivision[0],
+                              minute: timedivision[1],
+                            })
+                            setDateTime(datetime)
+                            setShowModal(false)
+                          }
+                        }}
+                      >
+                        Select
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

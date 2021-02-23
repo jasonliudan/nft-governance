@@ -1,13 +1,17 @@
 import { NavBar } from '@/components'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { getProposals } from '../../store/actions'
 
 import Create from './create'
 import TabView from '../../components/TabView'
 import 'font-awesome/css/font-awesome.min.css'
 
-export default function SpaceDetail() {
+function SpaceDetail({ ethAddress, getProposals }) {
   const router = useRouter()
   const params = router.query.params
 
@@ -41,6 +45,10 @@ export default function SpaceDetail() {
     },
   ]
 
+  useEffect(() => {
+    getProposals()
+  }, [])
+
   if (filter === 'create') return <Create />
   return (
     <div className="divide-y divide-gray-100">
@@ -53,11 +61,13 @@ export default function SpaceDetail() {
               </div>
               <h1 className="mb-4 text-3xl font-bold">Proposals</h1>
             </div>
-            <Link href={`/detail/${id}/create`} passHref={true}>
-              <a className="hidden items-center justify-center px-4 py-2 mt-4 h-12 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black sm:inline-flex">
-                New Proposal
-              </a>
-            </Link>
+            {ethAddress && (
+              <Link href={`/detail/${id}/create`} passHref={true}>
+                <a className="hidden items-center justify-center px-4 py-2 mt-4 h-12 text-base font-medium text-black border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-black sm:inline-flex">
+                  New Proposal
+                </a>
+              </Link>
+            )}
           </div>
           <TabView
             options={tabData}
@@ -91,3 +101,16 @@ SpaceDetail.layoutProps = {
   },
   Layout: DetailPageLayout,
 }
+
+const mapStateToProps = (state) => ({
+  ethAddress: state.connectionReducer.ethAddress,
+})
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getProposals: () => getProposals(),
+    },
+    dispatch
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpaceDetail)

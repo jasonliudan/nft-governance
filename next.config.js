@@ -1,5 +1,7 @@
+require('dotenv').config()
+
 module.exports = {
-  images: {
-    domains: [],
+  env: {
+    SERVER_URL: process.env.SERVER_URL,
   },
 }
