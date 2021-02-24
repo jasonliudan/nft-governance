@@ -23,6 +23,11 @@ export default function proposalReducer(state = initialState, action) {
         ...state,
         creatingInProgress: true
       }
+    case ActionTypes.SET_CREATING_PROPOSAL_STATUS:
+      return {
+        ...state,
+        creatingInProgress: action.status
+      }
     default:
       return state
   }

@@ -12,16 +12,19 @@ export const getProposals = async () => {
 export const createProposal = async (proposal) => {
   const address = await getMetamaskAccount()
   const signedMessage = await handleMetamaskSignMessage(address, JSON.stringify(proposal))
-  const signedProposal = {
-    ...proposal,
-    signature: signedMessage
-  }
+  if (signedMessage) {
+    const signedProposal = {
+      ...proposal,
+      signature: signedMessage
+    }
 
-  const ipfsHash = await ipfs.add(JSON.stringify(signedProposal))
-  const data = await axios
-    .post(`${process.env.SERVER_URL}/proposals/create-proposal`, {
-      hash: ipfsHash
-    }, {})
-    .catch((error) => error)
-  return data.data
+    const ipfsHash = await ipfs.add(JSON.stringify(signedProposal))
+    const data = await axios
+      .post(`${process.env.SERVER_URL}/proposals/create-proposal`, {
+        hash: ipfsHash
+      }, {})
+      .catch((error) => error)
+    return data.data
+  }
+  return false
 }

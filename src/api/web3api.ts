@@ -37,7 +37,7 @@ export async function handleMetamaskSignMessage(address, message) {
     );
     return signature;
   } catch (err) {
-    throw new Error("You need to sign the message to be able to log in.")
+    return false;
   }
 }
 

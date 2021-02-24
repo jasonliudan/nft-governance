@@ -23,3 +23,9 @@ export const createProposal = (proposal) => {
     proposal
   }
 }
+export const setCreatingProposalStatus = (status) => {
+  return {
+    type: ActionTypes.SET_CREATING_PROPOSAL_STATUS,
+    status
+  }
+}
