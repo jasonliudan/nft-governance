@@ -28,14 +28,14 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
               onClick={(e) => e.stopPropagation()}
             >
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none sm:rounded-lg">
                 {/*header*/}
-                <div className="flex justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-                  <h3 className="text-xl font-semibold w-full text-center">
+                <div className="flex justify-between p-5 border-b border-solid border-gray-300 sm:rounded-t">
+                  <h3 className="text-xl font-semibold w-full text-center text-blue-600">
                     Connect wallet
                   </h3>
                   <button
-                    className=" bg-transparent border-0 text-black  text-1xl leading-none outline-none focus:outline-none"
+                    className=" bg-transparent border-0 text-blue-600  text-1xl leading-none outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
                     <i className="fa fa-close" />
@@ -44,7 +44,7 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
                 {/*body*/}
                 <div className="relative my-4 mx-8 flex-auto">
                   <a
-                    className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black"
+                    className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-blue-600 border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600"
                     onClick={() => connectMetamask()}
                   >
                     <img
@@ -54,7 +54,7 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
                     />
                     MetaMask
                   </a>
-                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-blue-600 border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600">
                     <img
                       src="/icons/fortmatic.png"
                       alt="fortmatic"
@@ -62,7 +62,7 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
                     />
                     Fortmatic
                   </a>
-                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-blue-600 border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600">
                     <img
                       src="/icons/walletconnect.png"
                       alt="walletconnect"
@@ -70,7 +70,7 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
                     />
                     WalletConnect
                   </a>
-                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-blue-600 border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600">
                     <img
                       src="/icons/coinbase.png"
                       alt="coinbase"
@@ -78,7 +78,7 @@ function WalletMenu({ showModal, setShowModal, setEthAddress }) {
                     />
                     Coinbase
                   </a>
-                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-black border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-black">
+                  <a className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base font-medium text-blue-600 border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600">
                     <img
                       src="/icons/torus.png"
                       alt="torus"

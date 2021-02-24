@@ -11,7 +11,7 @@ function HeadOption({ selected, text, tabClicked }) {
 }
 export default function TabView({ options, selectedId, onTabChanged }) {
   return (
-    <div className="border rounded-t-md w-full">
+    <div className="overflow-scroll w-full border-t border-b sm:overflow-hidden sm:rounded-t-md sm:border ">
       <div className="p-6">
         {options.map((option, index) => (
           <HeadOption

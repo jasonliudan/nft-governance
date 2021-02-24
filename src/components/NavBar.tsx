@@ -40,7 +40,7 @@ function NavBar({ ethAddress, setEthAddress }) {
       >
         <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20">
-            <div className="flex items-center justify-start flex-1 ml-4 sm:items-stretch sm:ml-12">
+            <div className="flex items-center justify-start flex-1 sm:ml-4 sm:items-stretch sm:ml-12">
               <div className="flex items-center flex-shrink-0">
                 <Link href="/" passHref={true}>
                   <a>
@@ -64,7 +64,7 @@ function NavBar({ ethAddress, setEthAddress }) {
                 </Link>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center sm:pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div
                 className="w-40 overflow-hidden overflow-ellipsis text-center px-4 py-2 ml-8 bg-white text-base font-medium text-black border border-white text-white rounded cursor-pointer whitespace-nowrap"
                 style={{ backgroundColor: '#2a58b5' }}

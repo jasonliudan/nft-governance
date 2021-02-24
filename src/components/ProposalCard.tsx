@@ -19,16 +19,15 @@ export default function ProposalCard({ proposal, id }) {
     return (
         <Link href={`/detail/${id}/proposal/${proposal.hash}`} passHref={true}>
             <div className="px-6 py-4 border-r border-l border-b cursor-pointer">
-                <div className='flex'>
-                    <div className={`w-min text-white px-2 py-1 rounded-full text-sm ${isProposalClosed ? 'bg-indigo-600' : 'bg-green-500'}`}>
+                <div className='flex flex-col sm:flex-row'>
+                    <div className={`w-min text-white px-2 py-1 rounded-full text-sm mr-4 ${isProposalClosed ? 'bg-indigo-600' : 'bg-green-500'}`}>
                         {isProposalClosed ? 'Closed' : 'Active'}
                     </div>
-                    &nbsp;&nbsp;
                     <h2 className='font-bold text-lg'>{proposal.name}</h2>
                 </div>
-                <div className='flex mt-1'>
+                <div className='flex flex-col mt-1 sm:flex-row'>
                     <p>By {address.substring(0, 6)}...{address.substring(address.length - 4, address.length)}</p>
-                    <p className='ml-2'>Start {moment(proposal.start).format('MM/DD/YYYY')} End {moment(proposal.end).format('MM/DD/YYYY')}</p>
+                    <p className='sm:ml-2'>Start {moment(proposal.start).format('MM/DD/YYYY')} End {moment(proposal.end).format('MM/DD/YYYY')}</p>
                 </div>
             </div>
         </Link>

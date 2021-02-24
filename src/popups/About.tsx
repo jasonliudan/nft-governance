@@ -14,10 +14,10 @@ export default function About({ showModal, setShowModal }) {
               onClick={(e) => e.stopPropagation()}
             >
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none sm:rounded-lg">
                 {/*header*/}
-                <div className="flex justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-                  <h3 className="text-xl font-semibold w-full text-center">
+                <div className="flex justify-between p-5 border-b border-solid border-gray-300 sm:rounded-t">
+                  <h3 className="text-xl font-semibold w-full text-center text-blue-600">
                     About
                   </h3>
                   <button
@@ -28,43 +28,37 @@ export default function About({ showModal, setShowModal }) {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="mt-8 mb-4 mx-8 flex justify-center">
-                  <i
-                    className="fa fa-twitter mx-3 cursor-pointer"
-                    style={{ fontSize: '26px' }}
-                  ></i>
-                  <img
-                    src="/icons/discord.png"
-                    alt="discord"
-                    className="w-7 mx-3 cursor-pointer"
-                  />
-                  <i
-                    className="fa fa-telegram mx-3 cursor-pointer"
-                    style={{ fontSize: '26px' }}
-                  ></i>
-                  <i
-                    className="fa fa-github mx-3 cursor-pointer"
-                    style={{ fontSize: '26px' }}
-                  ></i>
-                  <i
-                    className="fa fa-heart mx-3 cursor-pointer"
-                    style={{ fontSize: '26px' }}
-                  ></i>
+                <div className="mt-8 mb-4 mx-8 flex justify-center ">
+                  <a href='https://twitter.com/bondlyfinance' target="_blank">
+                    <i
+                      className="fa fa-twitter mx-3 cursor-pointer"
+                      style={{ fontSize: '26px' }}
+                    ></i>
+                  </a>
+                  <a href='https://discord.com/invite/5AkCCuw' target="_blank">
+                    <img
+                      src="/icons/discord.png"
+                      alt="discord"
+                      className="w-7 mx-3 cursor-pointer"
+                    />
+                  </a>
+                  <a href='https://t.me/bondlyfinance' target="_blank">
+                    <i
+                      className="fa fa-telegram mx-3 cursor-pointer"
+                      style={{ fontSize: '26px' }}
+                    ></i>
+                  </a>
                 </div>
                 <div className="border rounded-md m-5 flex justify-between p-5">
                   <div className="text-gray-600">
                     <p>Version</p>
                     <p>License</p>
-                    <p>Network</p>
                     <p>IPFS server</p>
-                    <p>Hub</p>
                   </div>
                   <div className="text-right">
-                    <p>0.1.3#</p>
+                    <p>0.1.0#</p>
                     <p>MIT</p>
-                    <p>homestead (1)</p>
-                    <p>ipfs.fleek.co</p>
-                    <p>https://hub.snapshot.page</p>
+                    <p>ipfs.infura.io</p>
                   </div>
                 </div>
               </div>

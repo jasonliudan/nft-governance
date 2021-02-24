@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
+import Skeleton from 'react-loading-skeleton';
 
 import 'font-awesome/css/font-awesome.min.css'
 import { decodeHash, decryptSignatrue } from '../../utils'
@@ -45,16 +46,16 @@ function ProposalDetail({ }) {
     return (
         <div className="divide-y divide-gray-100">
             <main>
-                <div className="px-20 py-5">
+                <div className="px-4 py-5 sm:px-20">
                     <Link href={`/detail/${id}/all`} passHref={true}>
                         <div className="text-gray-500 cursor-pointer mb-4 hover:text-black">
                             <i className="fa fa-arrow-left"></i>&nbsp;&nbsp;
                                  <span>{id}</span>
                         </div>
                     </Link>
-                    {proposal &&
-                        <div className="flex">
-                            <div className="w-full pr-4">
+                    {proposal ?
+                        <div className="flex flex-col sm:flex-row">
+                            <div className="w-full sm:pr-4">
                                 <div>
                                     <h1 className='text-3xl font-bold'>{proposal.name}</h1>
                                     <div className={`w-min text-white px-2 py-1 mt-2 rounded-full text-sm ${isProposalClosed ? 'bg-indigo-600' : 'bg-green-500'}`}>
@@ -71,12 +72,11 @@ function ProposalDetail({ }) {
                                         {/*body*/}
                                         <div className="p-4">
                                             {proposal.choices.map((choice, index) => (
-                                                <div className="relative my-2 mx-8 flex-auto" key={index}
+                                                <div className={`inline-flex justify-center w-full mb-4 px-4 py-2 outline-none text-base font-medium text-black border 
+                                                    ${index === selectedChoice ? 'border-blue-600' : 'border-lightgray-500'} rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600 `}
+                                                    key={index}
                                                     onClick={() => setSelectedChoice(index)}>
-                                                    <div className={`inline-flex justify-center w-full m-5 px-4 py-2 outline-none text-base font-medium text-black border 
-                                                    ${index === selectedChoice ? 'border-blue-600' : 'border-lightgray-500'} rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600 sm:m-0`}>
-                                                        {choice}
-                                                    </div>
+                                                    {choice}
                                                 </div>
                                             ))}
                                             <div className="mx-8 mt-4">
@@ -92,7 +92,7 @@ function ProposalDetail({ }) {
                                 </div>
                             </div>
                             <div>
-                                <div className="w-80 border-0 rounded-lg border relative flex flex-col bg-white outline-none focus:outline-none">
+                                <div className="w-full border-0 rounded-lg mt-4 border relative flex flex-col bg-white outline-none focus:outline-none sm:mt-0 sm:w-80">
                                     {/*header*/}
                                     <div className="flex justify-between px-8 py-4 border-b border-solid border-gray-300 rounded-t">
                                         <h3 className="text-xl font-semibold w-full">Information</h3>
@@ -114,7 +114,7 @@ function ProposalDetail({ }) {
                                     </div>
                                 </div>
                             </div>
-                        </div>}
+                        </div> : <Skeleton count={10} />}
                 </div>
             </main>
         </div>
@@ -125,7 +125,7 @@ function ProposalDetailLayout({ children }: { children: ReactNode }) {
     return (
         <>
             <NavBar />
-            <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8 my-20">
+            <div className="px-0 mx-auto max-w-7xl sm:px-6 lg:px-8 my-20 sm:px-2">
                 {children}
             </div>
         </>
