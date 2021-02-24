@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import moment from 'moment'
 import Skeleton from 'react-loading-skeleton';
 
 import { getProposals } from '../../store/actions'
@@ -28,20 +29,8 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
       text: 'All',
     },
     {
-      id: 'core',
-      text: 'Core',
-    },
-    {
-      id: 'community',
-      text: 'Community',
-    },
-    {
       id: 'active',
       text: 'Active',
-    },
-    {
-      id: 'pending',
-      text: 'Pending',
     },
     {
       id: 'closed',
@@ -55,6 +44,24 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
 
   if (filter === 'create') return <Create />
   if (filter === 'proposal') return <ProposalDetail id={id} />
+
+  let filteredProposals = []
+  if (proposals) {
+    switch (filter) {
+      case 'all':
+        filteredProposals = proposals
+        break
+      case 'active':
+        filteredProposals = proposals.filter(proposal => moment(proposal.end).diff(moment()) > 0)
+        break
+      case 'closed':
+        filteredProposals = proposals.filter(proposal => moment(proposal.end).diff(moment()) <= 0)
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <div className="divide-y divide-gray-100">
       <main>
@@ -74,7 +81,7 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
               </Link>
             )}
           </div>
-          {proposals.length > 0 ?
+          {proposals ?
             <div>
               <TabView
                 options={tabData}
@@ -86,7 +93,7 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
                 }
               />
               {
-                proposals.map((proposal, index) =>
+                filteredProposals.map((proposal, index) =>
                   <ProposalCard proposal={proposal} id={id} key={index} />)}
             </div> :
             <div>

@@ -1,7 +1,7 @@
 import * as ActionTypes from '../constants'
 
 const initialState = {
-  proposals: [],
+  proposals: null,
 }
 
 export default function proposalReducer(state = initialState, action) {

@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import { getERC20TokenBalance } from '../api'
+import { spaces } from '../data/data'
 
-export default function ConfirmVote({ option, showModal, setShowModal }) {
+function ConfirmVote({ id, option, ethAddress, showModal, setShowModal }) {
+    const [balance, setBalance] = useState(0)
+    const [tokenName, setTokenName] = useState('')
+    useEffect(() => {
+        const getTokenBalance = async () => {
+            const tokenSymbol = spaces.find(
+                (space) => space.id.localeCompare(id) === 0
+            ).symbol
+            setTokenName(tokenSymbol)
+
+            const balance = await getERC20TokenBalance(ethAddress, tokenSymbol)
+            setBalance(balance)
+        }
+        if (ethAddress)
+            getTokenBalance()
+    }, [showModal])
     return (
         <>
             {showModal ? (
@@ -39,7 +57,7 @@ export default function ConfirmVote({ option, showModal, setShowModal }) {
                                     </div>
                                     <div className="text-right">
                                         <p>{option}</p>
-                                        <p>MIT</p>
+                                        <p>{balance} {tokenName}</p>
                                     </div>
                                 </div>
                                 {/*footer*/}
@@ -68,3 +86,9 @@ export default function ConfirmVote({ option, showModal, setShowModal }) {
         </>
     )
 }
+
+const mapStateToProps = (state) => ({
+    ethAddress: state.connectionReducer.ethAddress
+})
+
+export default connect(mapStateToProps, null)(ConfirmVote)

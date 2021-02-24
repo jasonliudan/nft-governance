@@ -1,5 +1,6 @@
 import Web3 from 'web3'
 import window from 'global'
+import { tokens } from '../data/data'
 
 let web3 = window.web3
 let ethereum = window.ethereum
@@ -7,7 +8,7 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(Web3.givenProvider)
 } else {
   web3 = new Web3(
-    new Web3.providers.HttpProvider(process.env.REACT_APP_WEB3_PROVIDER)
+    new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER)
   )
 }
 
@@ -36,6 +37,16 @@ export async function handleMetamaskSignMessage(address, message) {
     );
     return signature;
   } catch (err) {
-    throw new Error("You need to sign the message to be able to log in.");
+    throw new Error("You need to sign the message to be able to log in.")
   }
+}
+
+export async function getERC20TokenBalance(walletAddress, tokenName) {
+  const token = tokens.find(
+    (token) => token.name.localeCompare(tokenName) === 0
+  )
+  let contract = new web3.eth.Contract(token.ABI, token.tokenAddress)
+  const result = await contract.methods.balanceOf(walletAddress).call()
+
+  return result / Math.pow(10, tokens[0].decimal)
 }

@@ -53,7 +53,7 @@ function ProposalDetail({ }) {
         address = decryptSignatrue(JSON.stringify(proposalObj), proposal.signature)
     }
     const isProposalClosed = proposal ? moment(proposal.end).diff(moment()) > 0 ? false : true : false
-    console.log(selectedChoice)
+
     return (
         <div className="divide-y divide-gray-100">
             <main>
@@ -135,6 +135,7 @@ function ProposalDetail({ }) {
             {/* PopUps */}
             <div>
                 <ConfirmVote
+                    id={id}
                     showModal={showConfirmVoteModal}
                     option={proposal && selectedChoice !== null ? proposal.choices[selectedChoice] : null}
                     setShowModal={() => openConfirmVoteModal(false)}
