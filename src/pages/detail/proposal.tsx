@@ -7,8 +7,10 @@ import { bindActionCreators } from 'redux'
 import moment from 'moment'
 import Skeleton from 'react-loading-skeleton';
 
+import ConfirmVote from '../../popups/ConfirmVote'
+
 import 'font-awesome/css/font-awesome.min.css'
-import { decodeHash, decryptSignatrue } from '../../utils'
+import { handleBodyScroll, decodeHash, decryptSignatrue } from '../../utils'
 
 import { createProposal } from '../../store/actions'
 
@@ -16,6 +18,14 @@ function ProposalDetail({ }) {
     const [proposal, setProposal] = useState(null)
     const [selectedChoice, setSelectedChoice] = useState(null)
 
+    //Popup Status
+    const [showConfirmVoteModal, setShowConfirmVoteModal] = useState(false)
+    const openConfirmVoteModal = (mode) => {
+        setShowConfirmVoteModal(mode)
+        handleBodyScroll(mode)
+    }
+
+    //
     const router = useRouter()
     const params = router.query.params
 
@@ -43,6 +53,7 @@ function ProposalDetail({ }) {
         address = decryptSignatrue(JSON.stringify(proposalObj), proposal.signature)
     }
     const isProposalClosed = proposal ? moment(proposal.end).diff(moment()) > 0 ? false : true : false
+    console.log(selectedChoice)
     return (
         <div className="divide-y divide-gray-100">
             <main>
@@ -79,10 +90,14 @@ function ProposalDetail({ }) {
                                                     {choice}
                                                 </div>
                                             ))}
-                                            <div className="mx-8 mt-4">
+                                            <div className="mt-4">
                                                 <button
-                                                    className="inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium text-white border border-none outline-none rounded-full cursor-pointer whitespace-nowrap hover:border-black"
-                                                    style={{ backgroundColor: '#5984ff' }}
+                                                    className={`inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium 
+                                                    ${selectedChoice !== null ? 'bg-blue-600' : 'bg-gray-300'}
+                                                    ${selectedChoice !== null ? 'cursor-pointer' : 'cursor-not-allowed'}
+                                                    text-white border border-none outline-none rounded-full whitespace-nowrap hover:border-black`}
+
+                                                    onClick={() => selectedChoice !== null && openConfirmVoteModal(true)}
                                                 >
                                                     Vote
                                                 </button>
@@ -117,6 +132,15 @@ function ProposalDetail({ }) {
                         </div> : <Skeleton count={10} />}
                 </div>
             </main>
+            {/* PopUps */}
+            <div>
+                <ConfirmVote
+                    showModal={showConfirmVoteModal}
+                    option={proposal && selectedChoice !== null ? proposal.choices[selectedChoice] : null}
+                    setShowModal={() => openConfirmVoteModal(false)}
+                //   setDateTime={(datetime) => setStartDateTime(datetime)}
+                />
+            </div>
         </div>
     )
 }
