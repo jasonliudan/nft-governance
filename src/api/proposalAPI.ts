@@ -28,6 +28,14 @@ export const createProposal = async (proposal) => {
   }
   return false
 }
+
+//Votes
+export const getVotes = async (proposalHash) => {
+  const data = await axios
+    .get(`${process.env.SERVER_URL}/proposals/get-votes`, { params: { proposalHash } })
+    .catch((error) => error)
+  return data.data
+}
 export const createVote = async (vote) => {
   const address = await getMetamaskAccount()
   const signedMessage = await handleMetamaskSignMessage(address, JSON.stringify(vote))

@@ -6,17 +6,25 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
 import Skeleton from 'react-loading-skeleton';
+import { Progress } from 'react-sweet-progress';
+import "react-sweet-progress/lib/style.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import ConfirmVote from '../../popups/ConfirmVote'
+import VoteCard from '../../components/VoteCard'
 
 import 'font-awesome/css/font-awesome.min.css'
 import { handleBodyScroll, decodeHash, decryptSignatrue } from '../../utils'
 
-import { createVote } from '../../store/actions'
+import { createVote, getVotes } from '../../store/actions'
+import { spaces } from '../../data/data'
 
-function ProposalDetail({ createVote }) {
+function ProposalDetail({ ethAddress, votes, votingInProgress, createVote, getVotes }) {
     const [proposal, setProposal] = useState(null)
     const [selectedChoice, setSelectedChoice] = useState(null)
+    const [resultData, setResultData] = useState(null)
+    const [totalPower, setTotalPower] = useState(null)
+    const [isAlreadyVoted, setIsAlreadyVoted] = useState(false)
 
     //Popup Status
     const [showConfirmVoteModal, setShowConfirmVoteModal] = useState(false)
@@ -31,14 +39,50 @@ function ProposalDetail({ createVote }) {
 
     const id = params[0]
     const hash = params[2]
+
+    const tokenSymbol = spaces.find(
+        (space) => space.id.localeCompare(id) === 0
+    ).symbol
+
     useEffect(() => {
+        getVotes(hash)
         async function retrieveData() {
             const data = await decodeHash(hash)
             setProposal(data)
         }
         retrieveData()
     }, [])
+    useEffect(() => {
+        if (votes && proposal) {
+            const resultData = []
+            for (let i = 0; i < proposal.choices.length; i++)
+                resultData.push(0)
 
+
+            let total = 0, isAlreadyVoted = false
+            for (let i = 0; i < votes.length; i++) {
+                total += votes[i].votingPower
+                resultData[votes[i].choice] += votes[i].votingPower
+
+                //Get Address
+                if (!isAlreadyVoted) {
+                    const voteObj = {
+                        proposalHash: votes[i].proposalHash,
+                        choice: votes[i].choice,
+                        votingPower: votes[i].votingPower
+                    }
+
+                    const address = decryptSignatrue(JSON.stringify(voteObj), votes[i].signature)
+                    if (address.toLowerCase().localeCompare(ethAddress.toLowerCase()) === 0)
+                        isAlreadyVoted = true
+                }
+            }
+
+            setResultData(resultData)
+            setTotalPower(total)
+            setIsAlreadyVoted(isAlreadyVoted)
+        }
+    }, [votes])
     //Get Data
     let address = null
     if (proposal) {
@@ -63,6 +107,7 @@ function ProposalDetail({ createVote }) {
         }
         createVote(vote)
     }
+
     return (
         <div className="divide-y divide-gray-100">
             <main>
@@ -83,36 +128,51 @@ function ProposalDetail({ createVote }) {
                                     </div>
                                     <div className='text-xl mt-8'>{proposal.body}</div>
                                 </div>
-                                <div className='mt-8'>
+                                {(!isProposalClosed && votes) && <div className='mt-8'>
                                     <div className="w-full border-0 rounded-lg border relative flex flex-col bg-white outline-none focus:outline-none">
                                         {/*header*/}
                                         <div className="flex justify-between px-8 py-4 border-b border-solid border-gray-300 rounded-t">
                                             <h3 className="text-lg font-semibold w-full">Cast your vote</h3>
                                         </div>
                                         {/*body*/}
-                                        <div className="p-4">
-                                            {proposal.choices.map((choice, index) => (
-                                                <div className={`inline-flex justify-center w-full mb-4 px-4 py-2 outline-none text-base font-medium text-black border 
+                                        {isAlreadyVoted ?
+                                            <div className='p-4 text-center'>You've already voted</div> :
+                                            <div className="p-4">
+                                                {proposal.choices.map((choice, index) => (
+                                                    <div className={`inline-flex justify-center w-full mb-4 px-4 py-2 outline-none text-base font-medium text-black border 
                                                     ${index === selectedChoice ? 'border-blue-600' : 'border-lightgray-500'} rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600 `}
-                                                    key={index}
-                                                    onClick={() => setSelectedChoice(index)}>
-                                                    {choice}
-                                                </div>
-                                            ))}
-                                            <div className="mt-4">
-                                                <button
-                                                    className={`inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium 
+                                                        key={index}
+                                                        onClick={() => setSelectedChoice(index)}>
+                                                        {choice}
+                                                    </div>
+                                                ))}
+                                                <div className="mt-4">
+                                                    <button
+                                                        className={`inline-flex justify-center w-full px-4 py-2 outline-none text-base font-medium 
                                                     ${selectedChoice !== null ? 'bg-blue-600' : 'bg-gray-300'}
                                                     ${selectedChoice !== null ? 'cursor-pointer' : 'cursor-not-allowed'}
                                                     text-white border border-none outline-none rounded-full whitespace-nowrap hover:border-black`}
 
-                                                    onClick={() => selectedChoice !== null && openConfirmVoteModal(true)}
-                                                >
-                                                    Vote
-                                                </button>
-                                            </div>
+                                                        onClick={() => selectedChoice !== null && openConfirmVoteModal(true)}
+                                                    >
+
+                                                        {votingInProgress ? <ClipLoader color='#2a58b5' size={25} /> : 'Publish'}
+                                                    </button>
+                                                </div>
+                                            </div>}
+                                    </div>
+                                </div>}
+                                <div className='mt-8'>
+                                    <div className="w-full border rounded-t-lg relative flex flex-col bg-white outline-none focus:outline-none">
+                                        {/*header*/}
+                                        <div className="flex justify-between px-8 py-4 border-solid border-gray-300 rounded-t">
+                                            <h3 className="text-lg font-semibold w-full">Votes</h3>
                                         </div>
                                     </div>
+                                    {votes ? votes.map((vote, index) => (
+                                        <VoteCard vote={vote} tokenSymbol={tokenSymbol}
+                                            choices={proposal && proposal.choices} key={index} />
+                                    )) : <Skeleton count={10} />}
                                 </div>
                             </div>
                             <div>
@@ -136,6 +196,30 @@ function ProposalDetail({ createVote }) {
                                             <p>{moment(proposal.end).format('lll')}</p>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="w-full border-0 rounded-lg mt-4 border relative flex flex-col bg-white outline-none focus:outline-none sm:w-80">
+                                    {/*header*/}
+                                    <div className="flex justify-between px-8 py-4 border-b border-solid border-gray-300 rounded-t">
+                                        <h3 className="text-xl font-semibold w-full">Current results</h3>
+                                    </div>
+                                    {/*body*/}
+                                    {resultData ? <div className="relative my-4 mx-8 flex-auto">
+                                        {resultData.map((resultData, index) => (
+                                            <div key={index}>
+                                                <div className={'p-4 w-full flex justify-between'}>
+                                                    <p>{proposal.choices[index]}</p>
+                                                    <p>{resultData.toFixed(2)} {tokenSymbol}</p>
+                                                    <p>{(resultData / totalPower * 100).toFixed(2)}%</p>
+                                                </div>
+                                                <Progress percent={(resultData / totalPower * 100).toFixed(2)} theme={{
+                                                    error: {
+                                                        symbol: null,
+                                                        color: '#fbc630'
+                                                    }
+                                                }} />
+                                            </div>
+                                        ))}
+                                    </div> : <Skeleton count={5} />}
                                 </div>
                             </div>
                         </div> : <Skeleton count={10} />}
@@ -176,13 +260,18 @@ ProposalDetail.layoutProps = {
     Layout: ProposalDetailLayout,
 }
 
-
+const mapStateToProps = (state) => ({
+    ethAddress: state.connectionReducer.ethAddress,
+    votes: state.proposalReducer.votes,
+    votingInProgress: state.proposalReducer.votingInProgress
+})
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
         {
             createVote: (vote) => createVote(vote),
+            getVotes: (proposalHash) => getVotes(proposalHash)
         },
         dispatch
     )
 
-export default connect(null, mapDispatchToProps)(ProposalDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(ProposalDetail)

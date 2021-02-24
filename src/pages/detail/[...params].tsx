@@ -75,9 +75,9 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
             </div>
             {ethAddress && (
               <Link href={`/detail/${id}/create`} passHref={true}>
-                <a className="hidden items-center justify-center px-4 py-2 mt-4 h-12 text-base font-medium text-blue-600 border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600 sm:inline-flex">
+                <div className="items-center justify-center px-4 py-2 mt-4 mr-4 h-12 text-base font-medium text-blue-600 border border-lightgray-500 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600 sm:inline-flex sm:mr-0 ">
                   New Proposal
-                </a>
+                </div>
               </Link>
             )}
           </div>

@@ -75,7 +75,7 @@ function ConfirmVote({ id, option, ethAddress, showModal, setShowModal, vote }) 
                                         ${balance > 0 ? 'bg-blue-600' : 'bg-gray-300'}
                                         ${balance > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}
                                         whitespace-nowrap hover:border-blue-600`}
-                                        onClick={() => balance > 0 && vote()}
+                                        onClick={() => balance > 0 && vote(balance)}
                                     >
                                         Vote
                                     </button>

@@ -34,7 +34,7 @@ function NavBar({ ethAddress, setEthAddress }) {
   }
   return (
     <div>
-      <div className="fixed w-full top-0">
+      <div className="fixed w-full top-0 z-50">
         <nav
           className="border-b border-lightgray-500"
           style={{ backgroundColor: '#2a58b5' }}

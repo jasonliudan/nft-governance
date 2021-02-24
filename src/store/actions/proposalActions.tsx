@@ -31,9 +31,33 @@ export const setCreatingProposalStatus = (status) => {
 }
 
 //Votes
+export const getVotes = (proposalHash) => {
+  return {
+    type: ActionTypes.GET_VOTES,
+    proposalHash
+  }
+}
+export const setVotes = (votes) => {
+  return {
+    type: ActionTypes.SET_VOTES,
+    votes
+  }
+}
+export const setVote = (vote) => {
+  return {
+    type: ActionTypes.SET_VOTE,
+    vote
+  }
+}
 export const createVote = (vote) => {
   return {
     type: ActionTypes.CREATE_VOTE,
     vote
+  }
+}
+export const setCreatingVoteInProgress = (status) => {
+  return {
+    type: ActionTypes.SET_CREATING_VOTE_STATUS,
+    status
   }
 }
