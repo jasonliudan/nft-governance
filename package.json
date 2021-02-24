@@ -24,6 +24,7 @@
     "dotenv": "^8.2.0",
     "dotenv-load": "^2.0.0",
     "dotenv-webpack": "^6.0.0",
+    "eth-sig-util": "^3.0.1",
     "faunadb": "4.0.0",
     "font-awesome": "^4.7.0",
     "history": "^5.0.0",

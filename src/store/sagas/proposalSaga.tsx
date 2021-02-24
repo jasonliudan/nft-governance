@@ -16,6 +16,7 @@ function* workerGetProposals() {
     const decodedProposals = []
     for (let i = 0; i < proposals.length; i++) {
       const decodedProposal = yield call(decodeHash, proposals[i].hash)
+      decodedProposal.hash = proposals[i].hash
       decodedProposals.push(decodedProposal)
     }
     yield put(setProposals(decodedProposals))

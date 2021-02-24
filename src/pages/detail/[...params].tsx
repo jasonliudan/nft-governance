@@ -9,9 +9,10 @@ import { getProposals } from '../../store/actions'
 
 import Create from './create'
 import TabView from '../../components/TabView'
+import ProposalCard from '../../components/ProposalCard'
 import 'font-awesome/css/font-awesome.min.css'
 
-function SpaceDetail({ ethAddress, getProposals }) {
+function SpaceDetail({ ethAddress, proposals, getProposals }) {
   const router = useRouter()
   const params = router.query.params
 
@@ -78,6 +79,10 @@ function SpaceDetail({ ethAddress, getProposals }) {
               })
             }
           />
+          {
+            proposals.map((proposal, index) =>
+              <ProposalCard proposal={proposal} id={id} key={index} />)
+          }
         </div>
       </main>
     </div>
@@ -104,6 +109,7 @@ SpaceDetail.layoutProps = {
 
 const mapStateToProps = (state) => ({
   ethAddress: state.connectionReducer.ethAddress,
+  proposals: state.proposalReducer.proposals
 })
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(

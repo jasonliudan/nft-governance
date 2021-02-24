@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function NavBar({ space }) {
+export default function SpaceCard({ space }) {
   return (
     <Link href={`/detail/${space.id}/all`} passHref={true}>
       <div

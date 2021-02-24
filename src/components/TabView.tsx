@@ -1,9 +1,8 @@
 function HeadOption({ selected, text, tabClicked }) {
   return (
     <span
-      className={`cursor-pointer mr-4 ${
-        selected ? 'font-semibold' : 'font-normal'
-      }`}
+      className={`cursor-pointer mr-4 ${selected ? 'font-semibold' : 'font-normal'
+        }`}
       onClick={tabClicked}
     >
       {text}
@@ -12,7 +11,7 @@ function HeadOption({ selected, text, tabClicked }) {
 }
 export default function TabView({ options, selectedId, onTabChanged }) {
   return (
-    <div className="border rounded-md w-full">
+    <div className="border rounded-t-md w-full">
       <div className="p-6">
         {options.map((option, index) => (
           <HeadOption
