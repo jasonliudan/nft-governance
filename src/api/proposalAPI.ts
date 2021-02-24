@@ -18,10 +18,10 @@ export const createProposal = async (proposal) => {
   }
 
   const ipfsHash = await ipfs.add(JSON.stringify(signedProposal))
-  const status = await axios
+  const data = await axios
     .post(`${process.env.SERVER_URL}/proposals/create-proposal`, {
       hash: ipfsHash
     }, {})
     .catch((error) => error)
-  return status.data
+  return data.data
 }

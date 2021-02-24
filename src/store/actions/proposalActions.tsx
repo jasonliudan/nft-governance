@@ -11,6 +11,12 @@ export const setProposals = (proposals) => {
     proposals,
   }
 }
+export const setProposal = (proposal) => {
+  return {
+    type: ActionTypes.SET_PROPOSAL,
+    proposal,
+  }
+}
 export const createProposal = (proposal) => {
   return {
     type: ActionTypes.CREATE_PROPOSAL,

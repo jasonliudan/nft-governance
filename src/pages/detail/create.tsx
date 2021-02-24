@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import ClipLoader from "react-spinners/ClipLoader";
 
 import 'font-awesome/css/font-awesome.min.css'
 import SelectDate from '../../popups/SelectDate'
@@ -11,7 +12,7 @@ import { handleBodyScroll } from '../../utils'
 
 import { createProposal } from '../../store/actions'
 
-function CreateProposal({ createProposal }) {
+function CreateProposal({ creatingInProgress, createProposal }) {
   const [question, setQuestion] = useState('')
   const [content, setContent] = useState('')
   const [choices, setChoices] = useState(['', ''])
@@ -176,9 +177,9 @@ function CreateProposal({ createProposal }) {
                       color: '#ff3856',
                       borderColor: readyToPublish ? '#5984ff' : 'lightgray',
                     }}
-                    onClick={() => publish()}
+                    onClick={() => !creatingInProgress && publish()}
                   >
-                    Publish
+                    {creatingInProgress ? <ClipLoader color='#2a58b5' size={25} /> : 'Publish'}
                   </div>
                 </div>
               </div>
@@ -221,7 +222,9 @@ CreateProposal.layoutProps = {
   Layout: CreateProposalLayout,
 }
 
-
+const mapStateToProps = (state) => ({
+  creatingInProgress: state.proposalReducer.creatingInProgress
+})
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
@@ -230,4 +233,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   )
 
-export default connect(null, mapDispatchToProps)(CreateProposal)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProposal)

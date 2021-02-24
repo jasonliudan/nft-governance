@@ -5,4 +5,5 @@ export const UNSET_ETH_ADDRESS = 'UNSET_ETH_ADDRESS'
 //Proposals
 export const GET_PROPOSALS = 'GET_PROPOSALS'
 export const SET_PROPOSALS = 'SET_PROPOSALS'
+export const SET_PROPOSAL = 'SET_PROPOSAL'
 export const CREATE_PROPOSAL = 'CREATE_PROPOSAL'

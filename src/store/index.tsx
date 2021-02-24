@@ -20,7 +20,7 @@ function configureStore(initialState = {}) {
     bindMiddleware([sagaMiddleware])
   )
 
-  ;(store as any).sagaTask = sagaMiddleware.run(rootSaga) // tslint:disable-line
+    ; (store as any).sagaTask = sagaMiddleware.run(rootSaga) // tslint:disable-line
 
   return store
 }
