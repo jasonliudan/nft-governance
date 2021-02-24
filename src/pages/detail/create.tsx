@@ -152,7 +152,7 @@ function CreateProposal({ createProposal }) {
                     onClick={() => openStartCalendarModal(true)}
                   >
                     {startDateTime
-                      ? startDateTime.format('LLL')
+                      ? startDateTime.format('lll')
                       : 'Select start date'}
                   </div>
                   <div
@@ -160,7 +160,7 @@ function CreateProposal({ createProposal }) {
                     onClick={() => openEndCalendarModal(true)}
                   >
                     {endDateTime
-                      ? endDateTime.format('LLL')
+                      ? endDateTime.format('lll')
                       : 'Select start date'}
                   </div>
                   <input

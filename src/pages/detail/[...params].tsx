@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux'
 import { getProposals } from '../../store/actions'
 
 import Create from './create'
+import ProposalDetail from './proposal'
+
 import TabView from '../../components/TabView'
 import ProposalCard from '../../components/ProposalCard'
 import 'font-awesome/css/font-awesome.min.css'
@@ -51,6 +53,7 @@ function SpaceDetail({ ethAddress, proposals, getProposals }) {
   }, [])
 
   if (filter === 'create') return <Create />
+  if (filter === 'proposal') return <ProposalDetail id={id} />
   return (
     <div className="divide-y divide-gray-100">
       <main>
