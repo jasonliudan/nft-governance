@@ -73,7 +73,7 @@ function ProposalDetail({ ethAddress, votes, votingInProgress, createVote, getVo
                     }
 
                     const address = decryptSignatrue(JSON.stringify(voteObj), votes[i].signature)
-                    if (address.toLowerCase().localeCompare(ethAddress.toLowerCase()) === 0)
+                    if (address.toLowerCase().localeCompare(ethAddress ? ethAddress.toLowerCase() : '') === 0)
                         isAlreadyVoted = true
                 }
             }
@@ -128,7 +128,7 @@ function ProposalDetail({ ethAddress, votes, votingInProgress, createVote, getVo
                                     </div>
                                     <div className='text-xl mt-8'>{proposal.body}</div>
                                 </div>
-                                {(!isProposalClosed && votes) && <div className='mt-8'>
+                                {(!isProposalClosed && votes && ethAddress) && <div className='mt-8'>
                                     <div className="w-full border-0 rounded-lg border relative flex flex-col bg-white outline-none focus:outline-none">
                                         {/*header*/}
                                         <div className="flex justify-between px-8 py-4 border-b border-solid border-gray-300 rounded-t">
