@@ -4,7 +4,7 @@ import Router from 'next/router'
 
 import * as ActionTypes from '../constants'
 
-import { getProposals, createProposal } from '../../api'
+import { getProposals, createProposal, createVote } from '../../api'
 import { setProposals, setProposal, setCreatingProposalStatus } from '../actions'
 
 import { decodeHash } from '../../utils'
@@ -40,7 +40,25 @@ function* workerCreateProposal(action) {
     console.error()
   }
 }
+function* workerCreateVote(action) {
+  try {
+    const vote = yield call(createVote, action.vote)
+    console.log(vote)
+    /*  if (proposal) {
+        const decodedProposal = yield call(decodeHash, proposal.hash)
+        decodedProposal.hash = proposal.hash
+        yield put(setProposal(decodedProposal))
+        Router.push(`/detail/bondly.finance/proposal/${proposal.hash}`)
+      }
+      else
+        yield put(setCreatingProposalStatus(false))*/
+  } catch (error) {
+    console.error()
+  }
+}
+
 export default function* proposalSaga() {
   yield takeLatest(ActionTypes.GET_PROPOSALS, workerGetProposals)
   yield takeLatest(ActionTypes.CREATE_PROPOSAL, workerCreateProposal)
+  yield takeLatest(ActionTypes.CREATE_VOTE, workerCreateVote)
 }

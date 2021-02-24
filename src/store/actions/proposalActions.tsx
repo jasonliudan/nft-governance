@@ -29,3 +29,11 @@ export const setCreatingProposalStatus = (status) => {
     status
   }
 }
+
+//Votes
+export const createVote = (vote) => {
+  return {
+    type: ActionTypes.CREATE_VOTE,
+    vote
+  }
+}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getERC20TokenBalance } from '../api'
 import { spaces } from '../data/data'
 
-function ConfirmVote({ id, option, ethAddress, showModal, setShowModal }) {
+function ConfirmVote({ id, option, ethAddress, showModal, setShowModal, vote }) {
     const [balance, setBalance] = useState(0)
     const [tokenName, setTokenName] = useState('')
     useEffect(() => {
@@ -19,6 +19,7 @@ function ConfirmVote({ id, option, ethAddress, showModal, setShowModal }) {
         if (ethAddress)
             getTokenBalance()
     }, [showModal])
+
     return (
         <>
             {showModal ? (
@@ -57,7 +58,7 @@ function ConfirmVote({ id, option, ethAddress, showModal, setShowModal }) {
                                     </div>
                                     <div className="text-right">
                                         <p>{option}</p>
-                                        <p>{balance} {tokenName}</p>
+                                        <p>{balance.toFixed(2)} {tokenName}</p>
                                     </div>
                                 </div>
                                 {/*footer*/}
@@ -70,9 +71,11 @@ function ConfirmVote({ id, option, ethAddress, showModal, setShowModal }) {
                                         Cancel
                                     </button>
                                     <button
-                                        className="inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base text-white bg-blue-600 font-medium border border-gray-400 rounded-full cursor-pointer whitespace-nowrap hover:border-blue-600"
-
-                                        onClick={() => setShowModal(false)}
+                                        className={`inline-flex items-center justify-center px-4 py-2 w-full my-1 text-base text-white font-medium border border-gray-400 rounded-full 
+                                        ${balance > 0 ? 'bg-blue-600' : 'bg-gray-300'}
+                                        ${balance > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}
+                                        whitespace-nowrap hover:border-blue-600`}
+                                        onClick={() => balance > 0 && vote()}
                                     >
                                         Vote
                                     </button>

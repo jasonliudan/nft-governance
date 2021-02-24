@@ -12,9 +12,9 @@ import ConfirmVote from '../../popups/ConfirmVote'
 import 'font-awesome/css/font-awesome.min.css'
 import { handleBodyScroll, decodeHash, decryptSignatrue } from '../../utils'
 
-import { createProposal } from '../../store/actions'
+import { createVote } from '../../store/actions'
 
-function ProposalDetail({ }) {
+function ProposalDetail({ createVote }) {
     const [proposal, setProposal] = useState(null)
     const [selectedChoice, setSelectedChoice] = useState(null)
 
@@ -54,6 +54,15 @@ function ProposalDetail({ }) {
     }
     const isProposalClosed = proposal ? moment(proposal.end).diff(moment()) > 0 ? false : true : false
 
+    //Create Vote
+    const newVote = (votingPower) => {
+        const vote = {
+            proposalHash: hash,
+            choice: selectedChoice,
+            votingPower
+        }
+        createVote(vote)
+    }
     return (
         <div className="divide-y divide-gray-100">
             <main>
@@ -139,7 +148,10 @@ function ProposalDetail({ }) {
                     showModal={showConfirmVoteModal}
                     option={proposal && selectedChoice !== null ? proposal.choices[selectedChoice] : null}
                     setShowModal={() => openConfirmVoteModal(false)}
-                //   setDateTime={(datetime) => setStartDateTime(datetime)}
+                    vote={(votingPower) => {
+                        openConfirmVoteModal(false)
+                        newVote(votingPower)
+                    }}
                 />
             </div>
         </div>
@@ -168,7 +180,7 @@ ProposalDetail.layoutProps = {
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
         {
-            createProposal: (proposal) => createProposal(proposal),
+            createVote: (vote) => createVote(vote),
         },
         dispatch
     )

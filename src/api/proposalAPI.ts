@@ -28,3 +28,22 @@ export const createProposal = async (proposal) => {
   }
   return false
 }
+export const createVote = async (vote) => {
+  const address = await getMetamaskAccount()
+  const signedMessage = await handleMetamaskSignMessage(address, JSON.stringify(vote))
+  if (signedMessage) {
+    const signedVote = {
+      ...vote,
+      signature: signedMessage
+    }
+
+    const ipfsHash = await ipfs.add(JSON.stringify(signedVote))
+    const data = await axios
+      .post(`${process.env.SERVER_URL}/proposals/create-vote`, {
+        hash: ipfsHash
+      }, {})
+      .catch((error) => error)
+    return data.data
+  }
+  return false
+}
