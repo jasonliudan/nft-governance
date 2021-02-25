@@ -1,5 +1,5 @@
 import { NavBar } from '@/components'
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 
