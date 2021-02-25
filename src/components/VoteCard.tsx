@@ -15,8 +15,8 @@ export default function VoteCard({ vote, tokenSymbol, choices }) {
         <div className="px-6 py-4 border-r border-l border-b cursor-pointer">
             <div className='flex justify-between mt-1 flex-row'>
                 <p>{address.substring(0, 6)}...{address.substring(address.length - 4, address.length)}</p>
-                <p className='sm:ml-2'>{choices && choices[vote.choice]} {tokenSymbol}</p>
-                <p className='sm:ml-2'>{vote.votingPower.toFixed(2)}</p>
+                <p className='sm:ml-2'>{choices && choices[vote.choice]}</p>
+                <p className='sm:ml-2'>{vote.votingPower.toFixed(2)} {tokenSymbol}</p>
             </div>
         </div>
 
